@@ -4,10 +4,11 @@
 
     $CondPrice = $_POST["cond_price"];
     $CondCat = $_POST["cond_cat"];
+    $CondSup = $_POST["cond_sup"];
     $sqlStr ="SELECT * FROM tb_products WHERE i_Price > $CondPrice";
     if ($CondCat>0)
     {
-        $sqlStr .= " AND i_CategoryID = $CondCat ";
+        $sqlStr .= " AND i_CategoryID = $CondCat AND i_SupplierID = $CondSup";
     }
     
     echo $sqlStr;
@@ -115,6 +116,24 @@
                         $sel = "selected";
                     }
                     echo "<option $sel value=".$Row["i_CategoryID"].">".$Row["c_CategoryName"]."</option>" ; 
+                }
+            ?>
+            </select>
+
+            <label for="cond_cat">Supplier</label>
+            <select name="cond_cat">
+                <option value=0>=== All Supplier ===</option>
+            <?php
+                $sqlSup = " select * from tb_suppliers " ;
+                $resSup = mysqli_query($ConnDB,$sqlSup) ; 
+                while($Row = mysqli_fetch_array($resSup))
+                {
+                    $sel = "";
+                    if($CondCat == $Row["i_SupplierID "])
+                    {
+                        $sel = "selected";
+                    }
+                    echo "<option $sel value=".$Row["i_SupplierID "].">".$Row["c_SupplierName"]."</option>" ; 
                 }
             ?>
             </select>
