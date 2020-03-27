@@ -6,9 +6,9 @@
     $CondCat = $_POST["cond_cat"];
     $CondSup = $_POST["cond_sup"];
     $sqlStr ="SELECT * FROM tb_products WHERE i_Price > $CondPrice";
-    if ($CondCat>0)
+    if (($CondCat>0) || ($CondSup>0))
     {
-        $sqlStr .= " AND i_CategoryID = $CondCat AND i_SupplierID = $CondSup";
+        $sqlStr .= " AND i_CategoryID = $CondCat OR i_SupplierID = $CondSup ";
     }
     
     echo $sqlStr;
@@ -17,12 +17,6 @@
     
     $ResultSet = mysqli_query($ConnDB,$sqlStr);
 
-    // while($Row=mysqli_fetch_array($ResultSet))
-    // {
-    //     echo $Row["c_ProductName"];
-    //     echo $Row["i_Price"];
-    //     echo "<BR>";
-    // }
 ?>
 
 <!DOCTYPE html>
@@ -98,7 +92,7 @@
 </head>
 <body>
     <div>
-        <form  method="POST" action="formdb_search.php">
+        <form  method="POST" action="formdb_search_Supplier.php">
             <label for="fname">Product Price</label>
             <input type="text" name="cond_price" value=<?=$CondPrice?>>
 
@@ -120,8 +114,8 @@
             ?>
             </select>
 
-            <label for="cond_cat">Supplier</label>
-            <select name="cond_cat">
+            <label for="cond_sup">Supplier</label>
+            <select name="cond_sup">
                 <option value=0>=== All Supplier ===</option>
             <?php
                 $sqlSup = " select * from tb_suppliers " ;
@@ -129,7 +123,7 @@
                 while($Row = mysqli_fetch_array($resSup))
                 {
                     $sel = "";
-                    if($CondCat == $Row["i_SupplierID "])
+                    if($CondSup == $Row["i_SupplierID "])
                     {
                         $sel = "selected";
                     }
@@ -146,6 +140,7 @@
             <tr>
             <th>ชื่อสิ้นค้า</th>
             <th>หมวดหมู่สินค้า</th>
+            <th>ผู้ส่งสินค้า</th>
             <th>ราคาสิ้นค้า</th>
             </tr>
         <?php
@@ -156,13 +151,15 @@
                     echo "<td>".$Row["c_ProductName"]."</td>";
                     $CatName = GetCatName($ConnDB,$Row["i_CategoryID"]);
                     echo "<td>".$CatName."</td>";
+                    $SupName = GetSupName($ConnDB,$Row["i_SupplierID"]);
+                    echo "<td>".$SupName."</td>";
                     echo "<td>".$Row["i_Price"]."</td>";
                 echo "</tr>";
                 $Sum +=$Row["i_Price"];
             }
         ?>
         <tr>
-            <th colspan=2>ราคารวมทั้งหมด</th>
+            <th colspan=3>ราคารวมทั้งหมด</th>
             <th><?= $Sum ?></th>
         </tr>
         </table>

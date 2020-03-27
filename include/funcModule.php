@@ -9,4 +9,14 @@ function GetCatName($DB,$Id)
     return  $CatName ; 
 }
 
+function GetSupName($DB,$Id)
+{
+    $SupName = "" ; 
+    $sql = " SELECT c_SupplierName FROM tb_suppliers WHERE i_SupplierID = $Id " ; 
+    $Res = mysqli_query($DB,$sql);
+    while($Row = mysqli_fetch_array($Res)) 
+        { $SupName = $Row["c_SupplierName"] ;}
+    return  $SupName ; 
+}
+
 ?>
