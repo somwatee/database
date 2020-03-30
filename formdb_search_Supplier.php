@@ -122,12 +122,12 @@
                 $resSup = mysqli_query($ConnDB,$sqlSup) ; 
                 while($Row = mysqli_fetch_array($resSup))
                 {
-                    $sel = "";
+                    $selSup = "";
                     if($CondSup == $Row["i_SupplierID "])
                     {
-                        $sel = "selected";
+                        $selSup = "selected";
                     }
-                    echo "<option $sel value=".$Row["i_SupplierID "].">".$Row["c_SupplierName"]."</option>" ; 
+                    echo "<option $selSup value=".$Row["i_SupplierID "].">".$Row["c_SupplierName"]."</option>" ; 
                 }
             ?>
             </select>
