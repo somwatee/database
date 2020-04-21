@@ -8,7 +8,7 @@
     $sqlStr ="SELECT * FROM tb_products WHERE i_Price > $CondPrice";
     if (($CondCat>0) || ($CondSup>0))
     {
-        $sqlStr .= " AND i_CategoryID = $CondCat OR i_SupplierID = $CondSup ";
+        $sqlStr .= " AND i_CategoryID = $CondCat AND i_SupplierID = $CondSup ";
     }
     
     echo $sqlStr;
@@ -123,11 +123,11 @@
                 while($Row = mysqli_fetch_array($resSup))
                 {
                     $selSup = "";
-                    if($CondSup == $Row["i_SupplierID "])
+                    if($CondSup == $Row["i_SupplierID"])
                     {
                         $selSup = "selected";
                     }
-                    echo "<option $selSup value=".$Row["i_SupplierID "].">".$Row["c_SupplierName"]."</option>" ; 
+                    echo "<option $selSup value=".$Row["i_SupplierID"].">".$Row["c_SupplierName"]."</option>" ; 
                 }
             ?>
             </select>
